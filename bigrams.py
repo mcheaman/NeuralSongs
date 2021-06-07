@@ -1,3 +1,4 @@
+from sys import argv
 import nltk
 from nltk import ngrams
 from nltk import probability
@@ -104,14 +105,25 @@ def print_sentences(sent_list, probability_list):
         for word in sent.split():
             print(word,end=" ")
         print("\n\n")
- 
-num_stanza = random.randint(2,5)
-for i in range(0, num_stanza):
-  num_lines = random.randint(2, 10)
-  for j in range(0, num_lines):
-    print(make_bi_sentance(50))
-  print()
+
+def generate_song(f, i):
+    # print('\n' + "=" * 30 + "Song " + str(i+1) + "=" * 30, file=f)
+    num_stanza = random.randint(2,5)
+    for i in range(0, num_stanza):
+      num_lines = random.randint(2, 10)
+      for j in range(0, num_lines):
+        print(make_bi_sentance(35) , file=f)
+      print('\n', file=f)
+    print("<|end of text|>\n", file=f)  
 
 
+def main():
+  num_songs = int(argv[1])
+  for i in range(num_songs):
+    with open("bigram_generations.txt","a", encoding='utf-8') as f:
+      generate_song(f, i)
+
+if __name__ == '__main__':
+  main()
 
 

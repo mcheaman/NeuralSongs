@@ -1,13 +1,15 @@
 #Preprocesses a given file to facilitate bigram generation
 
 import sys
+import regex as re
 def process_line(text):
+    text = re.sub(r'[^\w\s]', '', text)    
     newline = "<s> "
     firstWord = text.split()[0]
     newline += firstWord.lower() 
     newline += " "
     newline += " ".join(text.split()[1:-1])
-    newline += " </s>"
+    # newline += " </s>"
     return newline
 
 def main():
