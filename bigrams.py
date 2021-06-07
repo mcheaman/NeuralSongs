@@ -65,29 +65,38 @@ def random_uni():
 
 #generate the sentences
 def make_bi_sentance(n):
-  k = n
-  sent =' '
   probability = 0
+  sent = random_uni();
+  sent += " "
   while(True):
+    n = 50
     if(len(sent.split()) == MAX_LINE_LEN-1):
       break
-    sent += random_uni();
     choices = bi_most_common(sent.split()[-1], n)
-    if len(choices) < k:
-      k = len(choices)-1
-    choice = random.randint(1, k)
-    pair = choices[choice]
-    next = pair[1]
-    if len(sent.split()) == 2:
-      probability += math.log2(bi_prob.get(pair))
+    if(len(choices) == 0):
+      next = random_uni()
+    elif(len(choices) == 1):
+      pair = choices[0]
+      next = pair[1]
+    elif len(choices) < n:
+      n = len(choices)-1
+      choice = random.randint(1, n)
+      pair = choices[choice]
+      next = pair[1]
+    else:
+      choice = random.randint(1, n-1)
+      pair = choices[choice]
+      next = pair[1]
+    # if len(sent.split()) == 2:
+      # probability += math.log2(bi_prob.get(pair))
   #   elif next != '</s>':
   #     probability += math.log2(bi_prob.get(pair))
   #   if next == '</s>' or next == '<s>':
   #     sent += '</s>'
   #     break
-  #   sent += next + " "
-  # bigram_sentences.append(sent)
-  return probability
+    sent += next + " "
+  bigram_sentences.append(sent)
+  return sent
 
 def print_sentences(sent_list, probability_list):
     for sent,prob in zip(sent_list,probability_list):
@@ -99,6 +108,10 @@ def print_sentences(sent_list, probability_list):
 num_stanza = random.randint(2,5)
 for i in range(0, num_stanza):
   num_lines = random.randint(2, 10)
-  bi_probability.append(make_bi_sentance(50))
+  for j in range(0, num_lines):
+    print(make_bi_sentance(50))
+  print()
 
-print_sentences(bigram_sentences, bi_probability)
+
+
+
